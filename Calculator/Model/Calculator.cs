@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 namespace Calculator.Model
 {
     public class Calculator
@@ -12,21 +10,37 @@ namespace Calculator.Model
 
         public double Calculate()
         {
-            _operations.ForEach((i) => { i.Execute(); });
-            _operations.Clear();
-            AddOperation('+', _currentValue);
+            _operations.ForEach(i => { i.Execute(); });
             double result = _currentValue;
             _currentValue = 0;
+
             return result;
         }
         public void AddOperation(char @operator, double operand)
         {
-            _operations.Add(new CalculatorOperation(new Action<char, double>(CalculateOperation), @operator, operand));
+            _operations.Add(new CalculatorOperation(CalculateOperation, @operator, operand));
         }
         public void RemoveLastOperation()
         {
-            if(_operations.Count > 0)
+            if (_operations.Count > 0)
                 _operations.RemoveAt(_operations.Count - 1);
+        }
+        public bool UndoLastOperation()
+        {
+            if (_operations.Count == 0)
+                return false;
+
+            _operations.Last().Unexecute();
+            _operations.RemoveAt(_operations.Count - 1);
+            return true;
+        }
+        public bool RedoLastOperation()
+        {
+            if (_operations.Count == 0)
+                return false;
+
+            _operations.Last().Unexecute();
+            return true;
         }
         public void Reset()
         {
@@ -42,7 +56,7 @@ namespace Calculator.Model
                 case '-': _currentValue -= operand; break;
                 case '*': _currentValue *= operand; break;
                 case '/': _currentValue /= operand; break;
-                default: 
+                default:
                     throw new ArgumentException("Invalid operator value");
             }
         }

@@ -6,25 +6,26 @@
         <ResourceDictionary Source="Shared.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- SimpleStyles: Label -->
-    <Style TargetType="Label" x:Key="labelStyle1">
+    <Style x:Key="resultLabelStyle" TargetType="Label">
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="38" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="#FF8500" />
+    </Style>
+
+    <Style x:Key="inputLabelStyle" TargetType="Label">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontSize" Value="34" />
         <Setter Property="Background" Value="White" />
-        <Setter Property="Foreground" Value="#FF8500" />
-    </Style>
-
-    <Style x:Key="labelStyle" TargetType="Label">
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="HorizontalContentAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="Arial" />
-        <Setter Property="FontSize" Value="34" /> 
-        <Setter Property="Background" Value="White" />
+        <Setter Property="FlowDirection" Value="LeftToRight"/>
     </Style>
 </ResourceDictionary>
+    

@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Calculator.ViewModel;
 
 namespace Calculator
@@ -29,9 +18,18 @@ namespace Calculator
             DataContext = _calculatorViewModel;
         }
 
-        private void windowHeader_MouseDown(object sender, MouseButtonEventArgs e)
+        private void WindowHeader_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
+
+        private void MainWin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D8 && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))) 
+                if (this.MultiplicationBtn.Command.CanExecute(null))
+                    this.MultiplicationBtn.Command.Execute(null);
+        }
     }
 }
+
+ 

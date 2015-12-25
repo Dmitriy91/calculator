@@ -1,22 +1,21 @@
 ﻿using MicroMvvm;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Calculator.ViewModel
 {
-    public class CalculatorViewModel: BaseViewModel
+    public class CalculatorViewModel : BaseViewModel
     {
         #region Fields
         private string _inputStr = String.Empty;
         private string _resultStr = String.Empty;
         private char _lastOperator = '+';
+        private readonly char[] _operators = { '/', '*', '+', '-' };
         private readonly Model.Calculator _calculator = new Model.Calculator();
-        private static readonly char [] _operators = { '/', '*', '+', '-' };
+        private readonly CultureInfo _cultureInfo = CultureInfo.CurrentUICulture;
         #endregion
 
         #region Properties
@@ -51,17 +50,8 @@ namespace Calculator.ViewModel
         private RelayCommand _divideCommand;
         private RelayCommand _addCommand;
         private RelayCommand _substructCommand;
-        private RelayCommand _inputPointCommand;
-        private RelayCommand _inputNullCommand;
-        private RelayCommand _inputOneCommand;
-        private RelayCommand _inputTwoCommand;
-        private RelayCommand _inputThreeCommand;
-        private RelayCommand _inputFourCommand;
-        private RelayCommand _inputFiveCommand;
-        private RelayCommand _inputSixCommand;
-        private RelayCommand _inputSevenCommand;
-        private RelayCommand _inputEightCommand;
-        private RelayCommand _inputNineCommand;
+        private RelayCommand _inputNumberDecimalSeparator;
+        private RelayCommand _inputDigitCommand;
         private RelayCommand _removeLastCharCommand;
         private RelayCommand _calculateCommand;
         private RelayCommand _resetCommand;
@@ -75,68 +65,42 @@ namespace Calculator.ViewModel
 
             return true;
         }
-
-        private void Divide()
-        {
-            if ((_lastOperator == '+' || _lastOperator == '-') && _inputStr.TrimStart(new char[] { '-' }).Split(_operators).Length >= 2)
-                _inputStr = String.Format("({0})", _inputStr);
-
-            OperationHelper('/');
-        }
         public ICommand DivideCommand
         {
             get
             {
                 if (_divideCommand == null)
-                    _divideCommand = new RelayCommand((param) => { Divide(); }, (param) => { return CanExecuteOperationCommand(); });
+                    _divideCommand = new RelayCommand(param => { OperationHelper('/'); }, param => CanExecuteOperationCommand());
 
                 return _divideCommand;
             }
-        }
-
-        private void Multiply()
-        {
-            if ((_lastOperator == '+' || _lastOperator == '-') && _inputStr.TrimStart(new char[] { '-' }).Split(_operators).Length >= 2)
-                _inputStr = String.Format("({0})", _inputStr);
-
-            OperationHelper('*');
         }
         public ICommand MultiplyCommand
         {
             get
             {
                 if (_multiplyCommand == null)
-                    _multiplyCommand = new RelayCommand((param) => { Multiply(); }, (param) => { return CanExecuteOperationCommand(); });
+                    _multiplyCommand = new RelayCommand(param => { OperationHelper('*'); }, param => CanExecuteOperationCommand());
 
                 return _multiplyCommand;
             }
-        }
-
-        public void Add()
-        {
-            OperationHelper('+');
         }
         public ICommand AddCommand
         {
             get
             {
                 if (_addCommand == null)
-                    _addCommand = new RelayCommand((param) => { Add(); }, (param) => { return CanExecuteOperationCommand(); });
+                    _addCommand = new RelayCommand(param => { OperationHelper('+'); }, param => CanExecuteOperationCommand());
 
                 return _addCommand;
             }
-        }
-
-        private void Substruct()
-        {
-            OperationHelper('-');
         }
         public ICommand SubstructCommand
         {
             get
             {
                 if (_substructCommand == null)
-                    _substructCommand = new RelayCommand((param) => { Substruct(); }, (param) => { return CanExecuteOperationCommand(); });
+                    _substructCommand = new RelayCommand(param => { OperationHelper('-'); }, param => CanExecuteOperationCommand());
 
                 return _substructCommand;
             }
@@ -144,110 +108,28 @@ namespace Calculator.ViewModel
 
         private bool CanExecuteInputDigitCommand()
         {
-            if (InputStr.Split(_operators).Last().Length >= 15)
-                return false;
+            if (InputStr.Split(_operators).Last().Length < 15)
+                return true;
 
-            return true;
+            return false;
         }
+        private void InputDigit(Object digit)
+        {
+            if(InputStr.Split(_operators).Last() == "0")
+                InputStr = InputStr.Remove(InputStr.Length - 1) + digit as string;
+            else
+                InputStr += digit as string;
 
-        public ICommand InputNullCommand
+            ResultStr = String.Empty;
+        }
+        public ICommand InputDigitCommand
         {
             get
             {
-                if (_inputNullCommand == null)
-                    _inputNullCommand = new RelayCommand((param) => { InputStr += "0"; }, (param) => CanExecuteInputDigitCommand());
+                if (_inputDigitCommand == null)
+                    _inputDigitCommand = new RelayCommand(InputDigit, param => CanExecuteInputDigitCommand());
 
-                return _inputNullCommand;
-            }
-        }
-        public ICommand InputOneCommand
-        {
-            get
-            {
-                if (_inputOneCommand == null)
-                    _inputOneCommand = new RelayCommand((param) => { InputStr += "1"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputOneCommand;
-            }
-        }
-        public ICommand InputTwoCommand
-        {
-            get
-            {
-                if (_inputTwoCommand == null)
-                    _inputTwoCommand = new RelayCommand((param) => { InputStr += "2"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputTwoCommand;
-            }
-        }
-        public ICommand InputThreeCommand
-        {
-            get
-            {
-                if (_inputThreeCommand == null)
-                    _inputThreeCommand = new RelayCommand((param) => { InputStr += "3"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputThreeCommand;
-            }
-        }
-        public ICommand InputFourCommand
-        {
-            get
-            {
-                if (_inputFourCommand == null)
-                    _inputFourCommand = new RelayCommand((param) => { InputStr += "4"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputFourCommand;
-            }
-        }
-        public ICommand InputFiveCommand
-        {
-            get
-            {
-                if (_inputFiveCommand == null)
-                    _inputFiveCommand = new RelayCommand((param) => { InputStr += "5"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputFiveCommand;
-            }
-        }
-        public ICommand InputSixCommand
-        {
-            get
-            {
-                if (_inputSixCommand == null)
-                    _inputSixCommand = new RelayCommand((param) => { InputStr += "6"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputSixCommand;
-            }
-        }
-        public ICommand InputSevenCommand
-        {
-            get
-            {
-                if (_inputSevenCommand == null)
-                    _inputSevenCommand = new RelayCommand((param) => { InputStr += "7"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputSevenCommand;
-            }
-        }
-        public ICommand InputEightCommand
-        {
-            get
-            {
-                if (_inputEightCommand == null)
-                    _inputEightCommand = new RelayCommand((param) => { InputStr += "8"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputEightCommand;
-            }
-        }
-        public ICommand InputNineCommand
-        {
-            get
-            {
-                if (_inputNineCommand == null)
-                    _inputNineCommand = new RelayCommand((param) => { InputStr += "9"; }, (param) => CanExecuteInputDigitCommand());
-
-                return _inputNineCommand;
+                return _inputDigitCommand;
             }
         }
 
@@ -260,93 +142,79 @@ namespace Calculator.ViewModel
         }
         private void RemoveLastChar()
         {
-            if (_operators.Contains(InputStr.Last()) && (!InputStr.Equals("-")))
+            if (_operators.Contains(InputStr.Last()) && !InputStr.Equals("-"))
             {
-                _calculator.RemoveLastOperation();
-                int prevOperatorIndex = InputStr.Remove(InputStr.Length - 1)
+                char prevOperator = InputStr.Remove(InputStr.Length - 1)
                     .ToList()
-                    .FindLastIndex((character) => _operators.Contains(character));
+                    .FindLast(character => _operators.Contains(character));
 
-                if (prevOperatorIndex != -1)
-                    _lastOperator = InputStr.ToCharArray()[prevOperatorIndex];
-                else
-                    _lastOperator = '+';
+                _lastOperator = prevOperator == default(char)? '+': prevOperator;
+                _calculator.RemoveLastOperation();
+
+                if (InputStr[InputStr.Length - 2] == ')')
+                {
+                    InputStr = InputStr.Remove(0, 1);
+                    InputStr = InputStr.Remove(InputStr.Length - 1);
+                }
             }
 
-            if (InputStr.Last() == ')')
-                InputStr = InputStr.Remove(0, 1);
-
             InputStr = InputStr.Remove(InputStr.Length - 1);
-            ResultStr = String.Empty;
+
+            if (this.CalculateCommand.CanExecute(null))
+                this.CalculateCommand.Execute(null);
+
+            if (String.IsNullOrEmpty(InputStr))
+                ResultStr = String.Empty;
         }
         public ICommand RemoveLastCharCommand
         {
             get
             {
                 if (_removeLastCharCommand == null)
-                    _removeLastCharCommand = new RelayCommand((param) => { RemoveLastChar(); }, (param) => { return CanExecuteRemoveLastCharCommand(); });
+                    _removeLastCharCommand = new RelayCommand(param => { RemoveLastChar(); }, param => CanExecuteRemoveLastCharCommand());
 
                 return _removeLastCharCommand;
             }
         }
 
-        private bool CanExecuteInputPointCommand()
+        private bool CanExecuteInputNumberDecimalSeparatorCommand()
         {
-            if (InputStr.Split(_operators).Last().Contains(','))
+            if (InputStr.Split(_operators).Last().Contains(_cultureInfo.NumberFormat.NumberDecimalSeparator))
                 return false;
 
             return true;
         }
-        public ICommand InputPointCommand
+        private void InputPoint()
+        {
+            if (InputStr.Split(_operators).Last() == String.Empty)
+                InputStr += "0" + _cultureInfo.NumberFormat.NumberDecimalSeparator;
+            else
+                InputStr += _cultureInfo.NumberFormat.NumberDecimalSeparator;
+        }
+        public ICommand InputNumberDecimalSeparatorCommand
         {
             get
             {
-                if (_inputPointCommand == null)
-                    _inputPointCommand = new RelayCommand((param) => { InputStr += ","; }, (param) => { return CanExecuteInputPointCommand(); });
+                if (_inputNumberDecimalSeparator == null)
+                    _inputNumberDecimalSeparator = new RelayCommand(param => { InputPoint(); }, param => CanExecuteInputNumberDecimalSeparatorCommand());
 
-                return _inputPointCommand;
+                return _inputNumberDecimalSeparator;
             }
         }
 
         private bool CanExecuteCalculateCommand()
         {
-            if (String.IsNullOrWhiteSpace(InputStr) || _operators.Contains(InputStr.Last()))
+            if (String.IsNullOrWhiteSpace(InputStr) || IsOperatorOrPoint(InputStr.Last()))
                 return false;
 
             return true;
-        }
-        private void Calculate()
-        {
-            double operand = ParseLastOperand();
-            
-            if (operand == 0.0D && _lastOperator == '/')
-            {
-                MessageBox.Show("Connot divide by zero!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
-            }
-
-            _calculator.AddOperation(_lastOperator, operand);
-
-            string result = _calculator.Calculate().ToString("F15").Remove(15);
-
-            if(result.Contains(','))
-                result = result.TrimEnd(new char[]{'0'});
-
-            if (result.Last() == ',')
-                result = result.Remove(result.Length - 1);
-
-            InputStr = result;
-            ResultStr = result;
-
-            _calculator.Reset();
-            _lastOperator = '+';
         }
         public ICommand CalculateCommand
         {
             get
             {
                 if (_calculateCommand == null)
-                    _calculateCommand = new RelayCommand((param) => { Calculate(); }, (param) => { return CanExecuteCalculateCommand(); });
+                    _calculateCommand = new RelayCommand(param => { OperationHelper('='); }, param => CanExecuteCalculateCommand());
 
                 return _calculateCommand;
             }
@@ -361,8 +229,8 @@ namespace Calculator.ViewModel
         }
         private void Reset()
         {
-            InputStr = string.Empty;
-            ResultStr = string.Empty;
+            InputStr = String.Empty;
+            ResultStr = String.Empty;
             _calculator.Reset();
             _lastOperator = '+';
         }
@@ -371,16 +239,15 @@ namespace Calculator.ViewModel
             get
             {
                 if (_resetCommand == null)
-                    _resetCommand = new RelayCommand((param) => { Reset(); }, (param) => { return CanExecuteResetCommand(); });
+                    _resetCommand = new RelayCommand(param => { Reset(); }, param => CanExecuteResetCommand());
 
                 return _resetCommand;
             }
         }
 
-        private void CloseWin(Object param)
+        private void CloseWin(Object win)
         {
-            Window win = param as Window;
-            win.Close();
+            (win as Window).Close();
         }
         public ICommand CloseWinCommand
         {
@@ -393,10 +260,9 @@ namespace Calculator.ViewModel
             }
         }
 
-        private void MinimizeWin(Object param)
+        private void MinimizeWin(Object win)
         {
-            Window win = param as Window;
-            win.WindowState = WindowState.Minimized;
+            (win as Window).WindowState = WindowState.Minimized;
         }
         public ICommand MinimizeWinCommand
         {
@@ -408,35 +274,59 @@ namespace Calculator.ViewModel
                 return _minimizeWinCommand;
             }
         }
-
         #endregion
 
         #region Helper methods
         private bool IsOperatorOrPoint(char character)
         {
-            if (character == '/' || character == '*' || character == '+' || character == '-' || character == '.')
+            if (_operators.Contains(character) || character == _cultureInfo.NumberFormat.NumberDecimalSeparator.First())
                 return true;
 
             return false;
         }
         private void OperationHelper(char @operator)
         {
+            if (@operator == '/' || @operator == '*')
+            {
+                if ((_lastOperator == '+' || _lastOperator == '-') && InputStr.TrimStart(new []{'-'}).Split(_operators).Length > 1)
+                    InputStr = String.Format("({0})", InputStr);
+            }
+
             double operand = ParseLastOperand();
-            if (operand == 0.0D && _lastOperator =='/')
+
+            if (operand == 0.0D && _lastOperator == '/')
             {
                 MessageBox.Show("Connot divide by zero!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
+
             _calculator.AddOperation(_lastOperator, operand);
-            InputStr += @operator;
-            _lastOperator = @operator;
-            ResultStr = String.Empty;
+
+            if (@operator != '=')
+            {
+                InputStr += @operator;
+                _lastOperator = @operator;
+                ResultStr = String.Empty;
+            }
+            else
+            {
+                string result = _calculator.Calculate().ToString("F15", _cultureInfo.NumberFormat).Remove(15);
+
+                if (result.Contains(_cultureInfo.NumberFormat.NumberDecimalSeparator))
+                    result = result.TrimEnd(new []{'0'});
+
+                if (result.Last() == _cultureInfo.NumberFormat.NumberDecimalSeparator.First())
+                    result = result.Remove(result.Length - 1);
+
+                ResultStr = result;
+                _calculator.RemoveLastOperation();
+            }
         }
         private double ParseLastOperand()
         {
-            double operand = Double.Parse(InputStr.Split(_operators).Last().TrimEnd(new char[] { ')' }));
+            double operand = Double.Parse(InputStr.Split(_operators).Last().TrimEnd(new []{')'}), _cultureInfo.NumberFormat);
 
-            if (InputStr.TrimStart(new char[]{'('}).First() == '-' && InputStr.Split(_operators).Length == 2)
+            if (InputStr.TrimStart(new []{'('}).First() == '-' && InputStr.Split(_operators).Length == 2)
                 return -operand;
 
             return operand;

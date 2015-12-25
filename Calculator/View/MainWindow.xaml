@@ -1,15 +1,56 @@
-﻿<Window x:Class="Calculator.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Name="MainWin"
-        Title="Calculate" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" 
+        x:Class="Calculator.MainWindow"
+        x:Name="MainWin"
+        Title="Calculator"
         Height="520" 
         Width="370" 
-        ResizeMode="NoResize"  
+        ResizeMode="CanMinimize"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="MainWin_KeyDown">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="0" Key="NumPad0" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="0" Key="D0" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="1" Key="NumPad1" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="1" Key="D1" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="2" Key="NumPad2" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="2" Key="D2" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="3" Key="NumPad3" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="3" Key="D3" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="4" Key="NumPad4" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="4" Key="D4" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="5" Key="NumPad5" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="5" Key="D5" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="6" Key="NumPad6" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="6" Key="D6" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="7" Key="NumPad7" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="7" Key="D7" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="8" Key="NumPad8" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="8" Key="D8" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="9" Key="NumPad9" />
+        <KeyBinding Command="{Binding InputDigitCommand}" CommandParameter="9" Key="D9" />
+        <KeyBinding Command="{Binding InputNumberDecimalSeparatorCommand}" Key="Decimal" />
+        <KeyBinding Command="{Binding InputNumberDecimalSeparatorCommand}" Key="OemComma" />
+        <KeyBinding Command="{Binding InputNumberDecimalSeparatorCommand}" Key="OemPeriod" />
+        <KeyBinding Command="{Binding AddCommand}" Key="Add" />
+        <KeyBinding Command="{Binding AddCommand}" Key="OemPlus" />
+        <KeyBinding Command="{Binding SubstructCommand}" Key="Subtract" />
+        <KeyBinding Command="{Binding SubstructCommand}" Key="OemMinus" />
+        <KeyBinding Command="{Binding MultiplyCommand}" Key="Multiply" />
+        <KeyBinding Command="{Binding DivideCommand}" Key="Divide" />
+        <KeyBinding Command="{Binding DivideCommand}" Key="OemPipe" />
+        <KeyBinding Command="{Binding DivideCommand}" Key="OemQuestion" />
+        <KeyBinding Command="{Binding CalculateCommand}" Key="Enter" />
+        <KeyBinding Command="{Binding RemoveLastCharCommand}" Key="Back" />
+        <KeyBinding Command="{Binding ResetCommand}" Key="Escape" />
+    </Window.InputBindings>
 
-    <Grid Background="Black"  >
+    <Grid Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
             <RowDefinition Height="25*" />
@@ -25,38 +66,229 @@
             <ColumnDefinition Width="125*" />
             <ColumnDefinition Width="125*" />
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Orientation="Vertical" Grid.ColumnSpan="4"  Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Stretch" Name="label1" VerticalAlignment="Stretch" Margin="4,3,4,20" Background="White">
-            <ScrollViewer Name="InputSV" VerticalContentAlignment="Stretch" Width="Auto" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-                <Label Name="InputLB" Content="{Binding InputStr, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource labelStyle}"/>
-            </ScrollViewer>
-            <Label Name="ResultLB" Content="{Binding ResultStr, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource labelStyle1}"/>
-        </StackPanel>
-        
-        <Button Command="{Binding InputSevenCommand, Mode=OneWay}" Content="7" Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Stretch" Name="button7" VerticalAlignment="Stretch" Margin="5,3,3,3" />
-        <Button Command="{Binding InputEightCommand, Mode=OneWay}" Content="8" Grid.Column="1" Grid.Row="3"  HorizontalAlignment="Stretch" Name="button8" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding InputNineCommand, Mode=OneWay}" Content="9" Grid.Column="2" Grid.Row="3"  HorizontalAlignment="Stretch" Name="button9" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding InputFourCommand, Mode=OneWay}" Content="4" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Stretch" Name="button4" VerticalAlignment="Stretch" Margin="5,3,3,3"/>
-        <Button Command="{Binding InputFiveCommand, Mode=OneWay}" Content="5" Grid.Column="1" Grid.Row="4"  HorizontalAlignment="Stretch" Name="button5" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding InputSixCommand, Mode=OneWay}" Content="6" Grid.Column="2" Grid.Row="4"  HorizontalAlignment="Stretch" Name="button6" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding InputOneCommand, Mode=OneWay}" Content="1" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Margin="5,3,3,3"/>
-        <Button Command="{Binding InputTwoCommand, Mode=OneWay}" Content="2" Grid.Column="1" Grid.Row="5"  HorizontalAlignment="Stretch" Name="button2" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding InputThreeCommand, Mode=OneWay}" Content="3" Grid.Column="2" Grid.Row="5"  HorizontalAlignment="Stretch" Name="button3" VerticalAlignment="Stretch"  Margin="3,3,3,3"/>
-        <Button Command="{Binding InputNullCommand, Mode=OneWay}" Content="0" Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Stretch" Name="button0" VerticalAlignment="Stretch" Grid.ColumnSpan="2"  Margin="5,3,3,3"/>
-        <Button Command="{Binding InputPointCommand, Mode=OneWay}" Content="." Grid.Column="2" Grid.Row="6"  HorizontalAlignment="Stretch" Name="buttonDot" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding CalculateCommand, Mode=OneWay}" Style="{StaticResource buttonStyle2}" Content="=" Grid.Column="3" Grid.Row="5"  HorizontalAlignment="Stretch" Name="buttonEqual" VerticalAlignment="Stretch" Grid.RowSpan="2" Margin="3,3,5,3"/>
-        <Button Command="{Binding AddCommand, Mode=OneWay}" Style="{StaticResource buttonStyle}" Content="+" Grid.Column="3" Grid.Row="4"  HorizontalAlignment="Stretch" Name="buttonPlus" VerticalAlignment="Stretch" Margin="3,3,5,3"/>
-        <Button Command="{Binding SubstructCommand, Mode=OneWay}" Style="{StaticResource buttonStyle}" Content="-" Grid.Column="3" Grid.Row="3"  HorizontalAlignment="Stretch" Name="buttonMinus" VerticalAlignment="Stretch" Margin="3,3,5,3"/>
-        <Button Command="{Binding RemoveLastCharCommand}" Style="{StaticResource buttonStyle}" Content="←" Grid.Column="3" Grid.Row="2"  HorizontalAlignment="Stretch" Name="buttonBacspace" VerticalAlignment="Stretch" Margin="3,3,5,3"/>
-        <Button Command="{Binding MultiplyCommand, Mode=OneWay}" Style="{StaticResource buttonStyle}" Content="×" Grid.Column="2" Grid.Row="2"  HorizontalAlignment="Stretch" Name="buttonMultiply" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding DivideCommand, Mode=OneWay}" Style="{StaticResource buttonStyle}" Content="÷" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Stretch" Name="buttonDiv" VerticalAlignment="Stretch" Margin="3,3,3,3"/>
-        <Button Command="{Binding ResetCommand, Mode=OneWay}" Style="{StaticResource buttonStyle1}" Content="C" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Stretch" Name="buttonClear" VerticalAlignment="Stretch" Margin="5,3,3,3"/>
 
-        <DockPanel  Grid.ColumnSpan="4" HorizontalAlignment="Stretch"  Name="stackPanel1" Background="#FF343b45"  VerticalAlignment="Stretch" Margin="2,2,2,5" MouseDown="windowHeader_MouseDown">
-            <Button Name="closeButton"  Command="{Binding CloseWinCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=MainWin}" Style="{StaticResource buttonStyle4}"  Content="×" Height="30" Width="30" DockPanel.Dock="Right" />
-            <Separator Style="{StaticResource SeparatorStyle}" DockPanel.Dock="Right" />
-            <Button Name="minimizeButton"  Command="{Binding MinimizeWinCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=MainWin}" Style="{StaticResource buttonStyle4}"  Content="_" Height="30" Width="30" DockPanel.Dock="Right" />
-            <Label DockPanel.Dock="Left" Content="Calculator" Foreground="White" Name="NavLbl"  FontSize="15" FontWeight="Normal"/>
+        <DockPanel x:Name="HeaderDP" 
+			        Grid.ColumnSpan="4" 
+			        HorizontalAlignment="Stretch" 
+			        Background="#FF343b45" 
+			        VerticalAlignment="Stretch" 
+			        Margin="2,2,2,0" 
+			        MouseDown="WindowHeader_MouseDown"
+                    ToolTip="dmitriy.sirenko91@gmail.com">
+            <Label x:Name="HeaderLbl" 
+				    DockPanel.Dock="Left" 
+				    Content="Calculator"
+                    HorizontalAlignment="Left"
+				    Foreground="White" 
+				    FontSize="15" 
+				    FontWeight="Normal"/>
+            <Button x:Name="CloseButton"
+				    DockPanel.Dock="Right"
+				    Command="{Binding CloseWinCommand, Mode=OneWay}" 
+				    CommandParameter="{Binding ElementName=MainWin}" 
+				    Style="{StaticResource buttonStyle4}"  
+				    Content="×" 
+				    Height="30" 
+				    Width="30"/>
+            <Separator DockPanel.Dock="Right" Style="{StaticResource SeparatorStyle}" />
+            <Button x:Name="MinimizeButton"  
+				    Command="{Binding MinimizeWinCommand, Mode=OneWay}" 
+				    CommandParameter="{Binding ElementName=MainWin}" 
+				    Style="{StaticResource buttonStyle4}"  
+				    Content="‒" 
+				    Height="30" 
+				    Width="30" 
+				    DockPanel.Dock="Right" />
         </DockPanel>
+
+        <StackPanel x:Name="ScreenSP"
+			        Orientation="Vertical" 
+			        Grid.ColumnSpan="4" 
+			        Grid.Column="0" 
+			        Grid.Row="1"  
+			        HorizontalAlignment="Stretch" 
+			        VerticalAlignment="Stretch" 
+			        Margin="4,8,4,20" 
+			        Background="White">
+
+            <ScrollViewer x:Name="InputSV"
+                            FlowDirection="RightToLeft"
+                            VerticalContentAlignment="Stretch" 
+                            Width="Auto" 
+                            HorizontalContentAlignment="Stretch" 
+                            VerticalScrollBarVisibility="Disabled" 
+                            HorizontalScrollBarVisibility="Auto">
+                <Label x:Name="InputLbl"
+					    Content="{Binding InputStr, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+					    Style="{StaticResource inputLabelStyle}"/>
+            </ScrollViewer>
+            <Label x:Name="ResultLbl" 
+				    Content="{Binding ResultStr, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+				    Style="{StaticResource resultLabelStyle}"/>
+        </StackPanel>
+
+        <Button x:Name="CancelationBtn"  
+			    Command="{Binding ResetCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle1}" 
+			    Content="C" 
+			    Grid.Column="0" 
+			    Grid.Row="2" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="5,3,3,3"/>
+        <Button x:Name="DivisionBtn" 
+			    Command="{Binding DivideCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle}" 
+			    Content="÷" 
+			    Grid.Column="1" 
+			    Grid.Row="2" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="MultiplicationBtn" 
+			    Command="{Binding MultiplyCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle}" 
+			    Content="×" 
+			    Grid.Column="2" 
+			    Grid.Row="2"  
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="BackspaceBtn" 
+			    Command="{Binding RemoveLastCharCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle}" 
+			    Content="←" 
+			    Grid.Column="3" 
+			    Grid.Row="2" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,5,3"/>
+        <Button x:Name="SevenBtn"
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="7"
+			    Content="7" 
+			    Grid.Column="0" 
+			    Grid.Row="3" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="5,3,3,3"/>
+        <Button x:Name="EightBtn"
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="8"
+			    Content="8" 
+			    Grid.Column="1" 
+			    Grid.Row="3"
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="NineBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="9"
+			    Content="9" 
+			    Grid.Column="2" 
+			    Grid.Row="3" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="SubstructionBtn"
+			    Command="{Binding SubstructCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle}" 
+			    Content="-" 
+			    Grid.Column="3" 
+			    Grid.Row="3"  
+			    HorizontalAlignment="Stretch"  
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,5,3"/>
+        <Button x:Name="FourBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="4"
+			    Content="4" 
+			    Grid.Column="0" 
+			    Grid.Row="4" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="5,3,3,3"/>
+        <Button x:Name="FiveBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="5"
+			    Content="5" 
+			    Grid.Column="1" 
+			    Grid.Row="4" 
+			    HorizontalAlignment="Stretch"
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="SixBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="6"
+			    Content="6" 
+			    Grid.Column="2" 
+			    Grid.Row="4" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="AdditionBtn" 
+			    Command="{Binding AddCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle}" 
+			    Content="+" Grid.Column="3" 
+			    Grid.Row="4"  
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,5,3"/>
+        <Button x:Name="OneBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="1"
+			    Content="1" 
+			    Grid.Column="0" 
+			    Grid.Row="5" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="5,3,3,3"/>
+        <Button x:Name="TwoBtn" 
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="2"
+			    Content="2" 
+			    Grid.Column="1"
+			    Grid.Row="5"
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="ThreeBtn"
+			    Command="{Binding InputDigitCommand, Mode=OneWay}"
+			    CommandParameter="3"
+			    Content="3" 
+			    Grid.Column="2" 
+			    Grid.Row="5" 
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
+        <Button x:Name="ResultBtn"
+			    Command="{Binding CalculateCommand, Mode=OneWay}" 
+			    Style="{StaticResource buttonStyle2}" 
+			    Content="=" 
+			    Grid.Column="3" 
+			    Grid.Row="5"  
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Grid.RowSpan="2" 
+			    Margin="3,3,5,3"/>
+        <Button x:Name="ZeroBtn"
+			    Command="{Binding InputDigitCommand, Mode=OneWay}" 
+			    CommandParameter="0" 
+			    Content="0" 
+			    Grid.Column="0" 
+			    Grid.Row="6"  
+			    HorizontalAlignment="Stretch" 
+			    VerticalAlignment="Stretch" 
+			    Grid.ColumnSpan="2"  
+			    Margin="5,3,3,3"/>
+        <Button x:Name="PointBtn" 
+			    Command="{Binding InputNumberDecimalSeparatorCommand, Mode=OneWay}"
+			    CommandParameter="." 
+			    Content="." 
+			    Grid.Column="2" 
+			    Grid.Row="6"  
+			    HorizontalAlignment="Stretch"
+			    VerticalAlignment="Stretch" 
+			    Margin="3,3,3,3"/>
     </Grid>
 </Window>

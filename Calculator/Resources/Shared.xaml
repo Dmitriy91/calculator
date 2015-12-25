@@ -8,19 +8,19 @@
                 <ControlTemplate TargetType="{x:Type HeaderedItemsControl}">
                     <StackPanel Margin="20">
                         <ContentPresenter 
-              Grid.Row="0" 
-              Margin="8,20,0,0" 
-              TextBlock.Foreground="#AAA" 
-              TextBlock.FontFamily="Trebuchet MS" 
-              TextBlock.FontSize="14px" 
-              TextBlock.FontWeight="Bold" 
-              ContentSource="Header" />
+                              Grid.Row="0" 
+                              Margin="8,20,0,0" 
+                              TextBlock.Foreground="#AAA" 
+                              TextBlock.FontFamily="Trebuchet MS" 
+                              TextBlock.FontSize="14px" 
+                              TextBlock.FontWeight="Bold" 
+                              ContentSource="Header" />
                         <StackPanel
-              IsItemsHost="True"
-              Orientation="Vertical" 
-              Grid.Row="1" 
-              VerticalAlignment="Center" 
-              HorizontalAlignment="Center" />
+                              IsItemsHost="True"
+                              Orientation="Vertical" 
+                              Grid.Row="1" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
@@ -33,19 +33,19 @@
                 <ControlTemplate TargetType="{x:Type HeaderedItemsControl}">
                     <StackPanel Margin="20">
                         <ContentPresenter 
-              Grid.Row="0" 
-              Margin="8,20,0,0" 
-              TextBlock.Foreground="#AAA" 
-              TextBlock.FontFamily="Trebuchet MS" 
-              TextBlock.FontSize="14px" 
-              TextBlock.FontWeight="Bold" 
-              ContentSource="Header" />
+                              Grid.Row="0" 
+                              Margin="8,20,0,0" 
+                              TextBlock.Foreground="#AAA" 
+                              TextBlock.FontFamily="Trebuchet MS" 
+                              TextBlock.FontSize="14px" 
+                              TextBlock.FontWeight="Bold" 
+                              ContentSource="Header" />
                         <StackPanel
-              IsItemsHost="True"
-              Orientation="Horizontal" 
-              Grid.Row="1" 
-              VerticalAlignment="Center" 
-              HorizontalAlignment="Center" />
+                              IsItemsHost="True"
+                              Orientation="Horizontal" 
+                              Grid.Row="1" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
@@ -163,8 +163,10 @@
     <SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" />
 
     <!-- Miscellaneous Brushes -->
+    
     <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
     <SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
 
 </ResourceDictionary>
+    
